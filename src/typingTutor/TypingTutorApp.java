@@ -218,6 +218,7 @@ public class TypingTutorApp {
 	    for (int i=0;i<noWords;i++) {
 			if (words[i].isGreen() == true) {
 				wrdShftH[i] = new HungryWordMover(words[i], dict, score, startLatch, done, pause);
+				wrdShftH[i].setWordList(words);
 
 			} else {
 
