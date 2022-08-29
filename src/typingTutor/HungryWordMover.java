@@ -37,11 +37,27 @@ public class HungryWordMover extends Thread {
     public void HungryDeletion(){
         int Xw=worD.getX();
         int Yw=worD.getY();
+        System.out.println("Xw = "+Xw+" and "+"Yw = "+Yw+" compare to the following:");
         for(int i=0;i< words.length;i++){
-            int Xc=words[i].getX();
-            int Yc=words[i].getY();
-            if((Xc==Xw)&&(Yc==Yw)){
-                words[i].resetWord();
+            if(!words[i].isGreen()){
+                int Xc=words[i].getX();
+                int Yc=words[i].getY();
+                //System.out.println("the black word is "+words[i].getWord());
+                //System.out.println("Xc = "+Xc+" and "+"Yc = "+Yc);
+                if(Yc==Yw){
+
+                    if(worD.getX()+worD.getWord().length() -words[i].getX() <1)
+                    {
+                        score.missedWord();
+                        words[i].resetWord();
+                    }
+                    if(words[i].getWord().length()-worD.getX() +words[i].getX() <1)
+                    {
+                        score.missedWord();
+                        words[i].resetWord();
+                    }
+            }
+
             }
             else{continue;}
         }
@@ -64,6 +80,7 @@ public class HungryWordMover extends Thread {
                 worD.moveHor(10);
                 HungryDeletion();
                 //System.out.println(worD);
+
                 try {
                     sleep(worD.getSpeed());
                 } catch (InterruptedException e) {

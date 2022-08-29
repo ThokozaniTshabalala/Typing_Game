@@ -203,11 +203,12 @@ public class TypingTutorApp {
 			int randomInt=r.nextInt(4);
 			System.out.println(randomInt);
 			Boolean green=false;
-			if (i==3){
+			if (i==2){
 				green=true;
 				words[i] = new FallingWord(dict.getNewWord(),0, yLimit, green);
 				words[i].setY(gameWindow.getHeight()/2);
-				//System.out.println("its green");
+				//words[i].setY(100);
+				System.out.println("its green");
 			}
 			else {
 				words[i] = new FallingWord(dict.getNewWord(), gameWindow.getValidXpos(), yLimit, green);
@@ -230,7 +231,9 @@ public class TypingTutorApp {
      	for (int i=0;i<noWords;i++) {
 			 if(words[i].isGreen()==true){
 				 wrdShftH[i].start();
-				 //System.out.println(words[i]);
+				 System.out.println(words[i].getWord());
+				 //System.out.println(("Xposition is "+words[i].getX()));
+				 //System.out.println(("Yposition is "+words[i].getY()));
 			 }
 			 else{
 				 wrdShft[i] .start();
