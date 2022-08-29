@@ -10,6 +10,7 @@ import static java.lang.Thread.sleep;
 public class HungryWordMover extends Thread {
 
     private FallingWord worD;
+    private FallingWord[] words;
     private AtomicBoolean done;
     private AtomicBoolean pause;
     private Score score;
@@ -17,6 +18,8 @@ public class HungryWordMover extends Thread {
     HungryWordMover ( FallingWord word) {
         worD = word;
     }
+
+
     HungryWordMover( FallingWord word,WordDictionary dict, Score score,
                CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p) {
         //this(worD);
@@ -25,6 +28,23 @@ public class HungryWordMover extends Thread {
         this.score=score;
         this.done=d;
         this.pause=p;
+    }
+    public void setWordList(FallingWord[] wordls){
+        words=wordls;
+
+    }
+
+    public void HungryDeletion(){
+        int Xw=worD.getX();
+        int Yw=worD.getY();
+        for(int i=0;i< words.length;i++){
+            int Xc=words[i].getX();
+            int Yc=words[i].getY();
+            if((Xc==Xw)&&(Yc==Yw)){
+                words[i].resetWord();
+            }
+            else{continue;}
+        }
     }
 
     public void run() {
@@ -42,7 +62,7 @@ public class HungryWordMover extends Thread {
             //animate the word
             while (!worD.dropped() && !done.get()) {
                 worD.moveHor(10);
-
+                HungryDeletion();
                 //System.out.println(worD);
                 try {
                     sleep(worD.getSpeed());
