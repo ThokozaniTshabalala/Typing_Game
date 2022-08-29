@@ -1,0 +1,13 @@
+Typing Tutor App Changes
+
+CatchWord Class
+
+In the CatchWord class two new methods have been created; lowerPos and checkDuplicates. These two methods are used in the run method. LowerPos takes two Falling words
+as arguments, in then gets the y positions of the words and checks which of the two words has a greater y position, it dertemines which of the two words is lower than
+the other. The lowerPos method then returns the word that has the greates y position, the word nearer the bottom of the screen.
+
+The method checkDuplicates takes in an integer as an argument. It checks if there are duplicate words in the words array that match the target word. The integer that
+is passed to it is used to determine where the first word that matches the target is, then a for loop looks through the rest of the array to find a match for the target
+word. If there are duplicates in the words array a boolena true value is returned by the method. 
+
+ 
