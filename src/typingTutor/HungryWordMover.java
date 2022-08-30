@@ -21,46 +21,18 @@ public class HungryWordMover extends Thread {
 
 
     HungryWordMover( FallingWord word,WordDictionary dict, Score score,
-               CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p) {
+               CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p, FallingWord[] wordSS) {
         //this(worD);
         this.worD=word;
         this.startLatch = startLatch;
         this.score=score;
         this.done=d;
         this.pause=p;
+        words=wordSS;
     }
     public void setWordList(FallingWord[] wordls){
         words=wordls;
 
-    }
-
-    public void HungryDeletion(){
-        int Xw=worD.getX();
-        int Yw=worD.getY();
-        System.out.println("Xw = "+Xw+" and "+"Yw = "+Yw+" compare to the following:");
-        for(int i=0;i< words.length;i++){
-            if(!words[i].isGreen()){
-                int Xc=words[i].getX();
-                int Yc=words[i].getY();
-                //System.out.println("the black word is "+words[i].getWord());
-                //System.out.println("Xc = "+Xc+" and "+"Yc = "+Yc);
-                if(Yc==Yw){
-
-                    if(worD.getX()+worD.getWord().length() -words[i].getX() <1)
-                    {
-                        score.missedWord();
-                        words[i].resetWord();
-                    }
-                    if(words[i].getWord().length()-worD.getX() +words[i].getX() <1)
-                    {
-                        score.missedWord();
-                        words[i].resetWord();
-                    }
-            }
-
-            }
-            else{continue;}
-        }
     }
 
     public void run() {
@@ -74,11 +46,51 @@ public class HungryWordMover extends Thread {
             e1.printStackTrace();
         } //wait for other threads to start
         System.out.println(worD.getWord() + " started" );
+
+
         while (!done.get()) {
             //animate the word
             while (!worD.dropped() && !done.get()) {
-                worD.moveHor(10);
-                HungryDeletion();
+                //worD.moveHor(10);
+                //HungryDeletion();
+
+                if(worD.isGreen()){
+                    worD.moveHor(10);
+                    for(int i = 0 ; i<words.length; i++){
+                    if(!words[i].isGreen())
+                    {
+                        int y1=worD.getY(); int y2=words[i].getY();
+                        //System.out.println("y1 = "+y1+" y2 = "+y2);
+                        if(y1==y2)
+                        {
+                            int refVal=worD.getX()+(worD.getWord().length());
+                            int valOther=words[i].getX()+words[i].getWord().length();
+                            System.out.println("refVal = "+refVal+" and valOther = "+valOther);
+                            int val=refVal-valOther;
+                            int val2=valOther-refVal;
+                            //int val=worD.getX()+(worD.getWord().length())-words[i].getX();
+                            //int val2=words[i].getWord().length()-worD.getX() +words[i].getX();
+                            System.out.println("for the word = "+words[i].getWord());
+                            System.out.println("val = "+val);
+                            System.out.println("val2 = "+val2);
+                            if( val>0 && val<valOther)
+                            {
+                                System.out.println("for the word = "+words[i].getWord()+"| There should be deletion");
+                                score.missedWord();
+                                words[i].resetWord();
+                            }
+                            else if(val2>0 && val2<refVal)
+                            {
+                                System.out.println("There should be deletion");
+                                score.missedWord();
+                                words[i].resetWord();
+                            }
+                        }
+                    }
+                    }
+                }
+
+
                 //System.out.println(worD);
 
                 try {

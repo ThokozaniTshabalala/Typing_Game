@@ -206,7 +206,7 @@ public class TypingTutorApp {
 			if (i==2){
 				green=true;
 				words[i] = new FallingWord(dict.getNewWord(),0, yLimit, green);
-				words[i].setY(gameWindow.getHeight()/2);
+				words[i].setY(250);
 				//words[i].setY(100);
 				System.out.println("its green");
 			}
@@ -218,8 +218,8 @@ public class TypingTutorApp {
 		//create threads to move them
 	    for (int i=0;i<noWords;i++) {
 			if (words[i].isGreen() == true) {
-				wrdShftH[i] = new HungryWordMover(words[i], dict, score, startLatch, done, pause);
-				wrdShftH[i].setWordList(words);
+				wrdShftH[i] = new HungryWordMover(words[i], dict, score, startLatch, done, pause, words);
+				//wrdShftH[i].setWordList(words);
 
 			} else {
 
